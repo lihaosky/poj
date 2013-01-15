@@ -14,6 +14,23 @@ Data data[1000];
 int colNum, dataSize;
 unsigned long rowNum;
 
+// How many rows this number cover
+int rowsCovered(int posInData) {
+	if (data[posInData].end - data[posInData].start + 1 <= 2 * colNum + 3) {
+		return 2;
+	}
+	
+	int dist = data[posInData].end - data[posInData].start;
+	if (dist % colNum == 0) {
+		return dist / colNum + 1;
+	}
+	int col = dist / colNum;
+	if (data[posInData].end % colNum < (data[posInData].start + (col + 1) * colNum)) {
+		return col + 2;
+	}
+	return col + 1;
+}
+
 // If is in left edge
 bool isLeftEdge(int pos) {
 	return (pos % colNum == 0);
@@ -121,7 +138,6 @@ int findLocal(int posInImage, int posInData, int num, int pos) {
 
 // Find the max diff given position in image, position in data and its number
 int findMax(int posInImage, int posInData, int num) {
-	int left, leftUpper, leftLower, upper, lower, rightUpper, right, rightLower;
 	int maxVal = -2;
 	
 	for (int i = 0; i < 8; i++) {
@@ -133,7 +149,13 @@ int findMax(int posInImage, int posInData, int num) {
 
 // Solve the problem
 void solve() {
-
+	int lastNum, lastCount;
+	for (int i = 0; i < dataSize; i++) {
+		int rows = rowsCovered(i);
+		if (rows <= 2) {
+			lastNum = findMax(data[i].start, i, num)
+			lastCount = 1;
+			
 }
 
 int main() {
