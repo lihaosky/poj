@@ -1,0 +1,1 @@
+find the longest common string in the file.

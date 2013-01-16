@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1232186325 source:c:\users\lihao\desktop\sudoku\sudoku.cpp
+	"sudu.h"
+	<iostream>
+
+1232186322 c:\users\lihao\desktop\sudoku\sudu.h
+

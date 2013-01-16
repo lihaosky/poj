@@ -1,0 +1,1 @@
+this program find all the anagram in a given text and the user input a string, if existed in the text, the program output all the anagrams

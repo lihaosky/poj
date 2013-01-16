@@ -1,0 +1,1 @@
+hangman game:read words from a file. user guesses the letters in the words.

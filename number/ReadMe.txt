@@ -1,0 +1,1 @@
+//find a 6 digit number which have the same digit number when it multiplies 1-6

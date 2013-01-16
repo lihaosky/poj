@@ -1,0 +1,1 @@
+solve linear equation. not very accurate.

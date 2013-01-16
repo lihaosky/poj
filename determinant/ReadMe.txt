@@ -1,0 +1,1 @@
+compute the determinant of a mitrix. input the matrix, output the answer.

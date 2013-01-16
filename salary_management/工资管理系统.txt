@@ -1,0 +1,4 @@
+10000  张三  10  projectmanager  400000
+10005  丁八  9   developer  190  10000
+10002  王五  4   salesmanager
+10004  马七  6  salesman  30000  10002

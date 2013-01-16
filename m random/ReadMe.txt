@@ -1,0 +1,1 @@
+the program generate m random numbers from n numbers.

@@ -1,0 +1,17 @@
+Bellman-Ford : graph.o Bellman-Ford.o Bellman-Ford-test.o
+	g++ graph.o Bellman-Ford.o Bellman-Ford-test.o -o Bellman-Ford
+graph.o : graph.h graph.cpp
+	g++ graph.cpp -c
+Bellman-Ford.o : Bellman-Ford.h Bellman-Ford.cpp
+	g++ Bellman-Ford.cpp -c
+Bellman-Ford-test.o : Bellman-Ford-test.cpp Bellman-Ford.h
+	g++ Bellman-Ford-test.cpp -c
+
+Floyd-Warshall : graph.o Floyd-Warshall.o
+	g++ graph.o Floyd-Warshall.o -o Floyd-Warshall
+Floyd-Warshall.o : Floyd-Warshall.cpp graph.h
+	g++ Floyd-Warshall.cpp -c
+
+.PHONY : clean
+clean :
+	rm *.o

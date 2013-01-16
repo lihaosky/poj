@@ -1,0 +1,1 @@
+given a number. decide if the number is the sum of numbers from a array.

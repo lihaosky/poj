@@ -1,0 +1,1 @@
+maze game. find the exit path of a maze.

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="SUDOKU" />
+		<Option pch_mode="2" />
+		<Option compiler="msvc8" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\SUDOKU" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="msvc8" />
+				<Compiler>
+					<Add option="/Zi" />
+					<Add option="/D_DEBUG" />
+					<Add option="/MTd" />
+				</Compiler>
+				<Linker>
+					<Add option="/DEBUG" />
+					<Add library="libcmtd.lib" />
+					<Add library="libcpmtd.lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\SUDOKU" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="msvc8" />
+				<Compiler>
+					<Add option="/Ox" />
+					<Add option="/DNDEBUG" />
+					<Add option="/MT" />
+				</Compiler>
+				<Linker>
+					<Add library="libcmt.lib" />
+					<Add library="libcpmt.lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="/W3" />
+			<Add option="/EHsc" />
+		</Compiler>
+		<Unit filename="main.cpp" />
+		<Unit filename="sudoku.cpp">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="sudu.h">
+			<Option target="Release" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

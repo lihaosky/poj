@@ -1,0 +1,1 @@
+demostrate dynamic programming to solve finbonacii array.

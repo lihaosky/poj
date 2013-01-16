@@ -1,0 +1,1 @@
+demostrate the usage of for_each().
