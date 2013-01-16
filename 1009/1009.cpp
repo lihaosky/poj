@@ -172,11 +172,25 @@ void solve() {
 						lastCount = colNum;
 					}
 				}
+				if (data[i].end - data[i].start > colNum - 1) {
+					num = findMax(data[i].end, i, data[i].num);
+					if (lastNum == num) {
+						lastCount += colNum;
+					} else {
+						cout << lastNum << " " << lastCount << endl;
+						lastNum = num;
+						lastCount = colNum;
+					}
+				}
 				continue;
 			}
 			if (i == 0 && i == dataSize - 1 && data[i].start % colNum == 0 && data[i].end % colNum == (colNum - 1)) {
 				lastNum = 0;
-				lastCount = colNum;
+				if (data[i].end - data[i].start > colNum - 1) {
+					lastCount = colNum * 2;
+				} else {
+					lastCount = colNum;
+				}
 				continue;
 			}
 			if (i == dataSize - 1 && data[i].start % colNum == 0 && data[i].end % colNum == (colNum - 1) && data[i - 1].start % colNum == 0 && data[i - 1].end % colNum == (colNum - 1)) {
@@ -193,6 +207,16 @@ void solve() {
 						lastCount = colNum;
 					}
 				}
+				if (data[i].end - data[i].start > colNum - 1) {
+					num = findMax(data[i].end, i, data[i].num);
+					if (lastNum == num) {
+						lastCount += colNum;
+					} else {
+						cout << lastNum << " " << lastCount << endl;
+						lastNum = num;
+						lastCount = colNum;
+					}
+				}
 				continue;
 			}
 			if (i != 0 && i != dataSize - 1 && data[i].start % colNum == 0 && data[i].end % colNum == (colNum - 1) && data[i - 1].start % colNum == 0 && data[i - 1].end % colNum == (colNum - 1) && data[i + 1].start % colNum == 0 && data[i + 1].end % colNum == (colNum - 1)) {
@@ -201,6 +225,16 @@ void solve() {
 					lastNum = num;
 					lastCount = colNum;
 				} else {
+					if (lastNum == num) {
+						lastCount += colNum;
+					} else {
+						cout << lastNum << " " << lastCount << endl;
+						lastNum = num;
+						lastCount = colNum;
+					}
+				}
+				if (data[i].end - data[i].start > colNum - 1) {
+					num = findMax(data[i].end, i, data[i].num);
 					if (lastNum == num) {
 						lastCount += colNum;
 					} else {
