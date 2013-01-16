@@ -62,15 +62,18 @@ int valueInPos(int posInImage, int posInData, int num, int pos) {
 			while (posInImage < data[curPos].start) {
 				curPos--;
 			}
-			return fabs(num - data[curPos].num);
+			return abs(num - data[curPos].num);
 		case 3:
 		case 4:
 		case 5:
 		case 6:
 			while (posInImage > data[curPos].end) {
 				curPos++;
+				/*cout << "curPos is " << curPos << endl;
+				cout << "pos is " << posInImage << endl;
+				cout << "point is " << pos << endl;*/
 			}
-			return fabs(num - data[curPos].num);
+			return abs(num - data[curPos].num);
 	}
 }
 
@@ -141,7 +144,7 @@ int findMax(int posInImage, int posInData, int num) {
 	int maxVal = -2;
 	
 	for (int i = 0; i < 8; i++) {
-		maxVal = max(maxVal, findLocal(posInImage, posInData, num, 0));
+		maxVal = max(maxVal, findLocal(posInImage, posInData, num, i));
 	}
 
 	return maxVal;
@@ -149,13 +152,158 @@ int findMax(int posInImage, int posInData, int num) {
 
 // Solve the problem
 void solve() {
-	int lastNum, lastCount;
+	int lastNum, lastCount, firstEnd, firstStart;
+	lastNum = -1;
+	lastCount = -1;
 	for (int i = 0; i < dataSize; i++) {
 		int rows = rowsCovered(i);
 		if (rows <= 2) {
-			lastNum = findMax(data[i].start, i, num)
-			lastCount = 1;
-			
+			for (int j = data[i].start; j <= data[i].end; j++) {
+				int num = findMax(j, i, data[i].num);
+				if (lastNum == -1) {
+					lastNum = num;
+					lastCount = 0;
+				}
+				if (num == lastNum) {
+					lastCount++;
+				} else {
+					cout << lastNum << " " << lastCount << endl;
+					lastNum = num;
+					lastCount = 1;
+				}
+			}
+		}
+		if (rows == 3) {
+			bool lookAll = false;
+			if (data[i].start % colNum == 0 && data[i].end % colNum != (colNum - 1) && data[i].start + colNum * 2 >= data[i].end) {
+				lookAll = true;
+			}
+		 	if (data[i].start % colNum != 0 && data[i].end % colNum != (colNum - 1) && data[i].start + colNum * 2 > (data[i].end - 2)) {
+		 		lookAll = true;
+		 	} 
+		 	if (data[i].end % colNum == (colNum - 1) && data[i].start % colNum != 0 && data[i].start + colNum * 2 >= data[i].end) {
+		 		lookAll = true;
+		 	}
+		 	if (lookAll) {
+				for (int j = data[i].start; j <= data[i].end; j++) {
+					int num = findMax(j, i, data[i].num);
+					if (lastNum == -1) {
+						lastNum = num;
+						lastCount = 0;
+					}
+					if (num == lastNum) {
+						lastCount++;
+					} else {
+						cout << lastNum << " " << lastCount << endl;
+						lastNum = num;
+						lastCount = 1;
+					}
+				}
+			} else {
+				if (data[i].start % colNum == 0 && data[i].end % colNum == (colNum - 1)) {
+					firstEnd = data[i].start + colNum - 1;
+					firstStart = data[i].start + colNum * 2;
+				} 
+				if (data[i].start % colNum == 0 && data[i].end % colNum != (colNum - 1)) {
+					firstEnd = data[i].start + colNum - 1;
+					firstStart = data[i].end - colNum;
+				} 
+				if (data[i].start % colNum != 0 && data[i].end % colNum == (colNum - 1)) {
+					firstEnd = data[i].start + colNum;
+					firstStart = data[i].end - colNum + 1;
+				}
+				if (data[i].start % colNum != 0 && data[i].end % colNum != (colNum - 1)) {
+					firstEnd = data[i].start + colNum;
+					firstStart = data[i].end - colNum;
+				}
+				for (int j = data[i].start; j <= firstEnd; j++) {
+					int num = findMax(j, i, data[i].num);
+					if (lastNum == -1) {
+						lastNum = num;
+						lastCount = 0;
+					} 
+					if (num == lastNum) {
+						lastCount++;
+					} else {
+						cout << lastNum << " " << lastCount << endl;
+						lastNum = num;
+						lastCount = 1;
+					}
+				}
+				int count = firstStart - firstEnd - 1;
+				if (lastNum == 0) {
+					lastCount += count;
+				} else {
+					cout << lastNum << " " << lastCount << endl;
+					lastNum = 0;
+					lastCount = count;
+				}
+				for (int j = firstStart; j <= data[i].end; j++) {
+					int num = findMax(j, i, data[i].num);
+					if (lastNum == -1) {
+						lastNum = num;
+						lastCount = 0;
+					} 
+					if (num == lastNum) {
+						lastCount++;
+					} else {
+						cout << lastNum << " " << lastCount << endl;
+						lastNum = num;
+						lastCount = 1;
+					}
+				}	
+			}
+		}
+		if (rows >= 4) {
+			if (data[i].start % colNum == 0) {
+				firstEnd = data[i].start + colNum - 1;
+			} else {
+				firstEnd = data[i].start + colNum;
+			}
+			if (data[i].end % colNum == (colNum - 1)) {
+				firstStart = data[i].end - colNum + 1;
+			} else {
+				firstStart = data[i].end - colNum;
+			}
+			for (int j = data[i].start; j <= firstEnd; j++) {
+				int num = findMax(j, i, data[i].num);
+				if (lastNum == -1) {
+					lastNum = num;
+					lastCount = 0;
+				} 
+				if (num == lastNum) {
+					lastCount++;
+				} else {
+					cout << lastNum << " " << lastCount << endl;
+					lastNum = num;
+					lastCount = 1;
+				}
+			}
+			int count = firstStart - firstEnd - 1;
+			if (lastNum == 0) {
+				lastCount += count;
+			} else {
+				cout << lastNum << " " << lastCount << endl;
+				lastNum = 0;
+				lastCount = count;
+			}
+			for (int j = firstStart; j <= data[i].end; j++) {
+				int num = findMax(j, i, data[i].num);
+				if (lastNum == -1) {
+					lastNum = num;
+					lastCount = 0;
+				} 
+				if (num == lastNum) {
+					lastCount++;
+				} else {
+					cout << lastNum << " " << lastCount << endl;
+					lastNum = num;
+					lastCount = 1;
+				}
+			}
+		}
+	}
+	cout << lastNum << " " << lastCount << endl;
 }
 
 int main() {
@@ -178,7 +326,7 @@ int main() {
 			data[dataSize].num = dataNum;
 			data[dataSize].start = start;
 			data[dataSize].end = start + dataCount - 1;
-			start = start + dataCount - 1;
+			start = start + dataCount;
 			dataSize++;
 			pixelNum += dataCount;
 		}
