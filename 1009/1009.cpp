@@ -158,6 +158,60 @@ void solve() {
 	for (int i = 0; i < dataSize; i++) {
 		int rows = rowsCovered(i);
 		if (rows <= 2) {
+			if (i == 0 && data[i].start % colNum == 0 && data[i].end % colNum == (colNum - 1) && i != dataSize - 1 && data[i+1].start % colNum == 0 && data[i+1].end % colNum == (colNum - 1)) {
+				int num = findMax(data[i].start, i, data[i].num);
+				if (lastNum == -1) {
+					lastNum = num;
+					lastCount = colNum;
+				} else {
+					if (lastNum == num) {
+						lastCount += colNum;
+					} else {
+						cout << lastNum << " " << lastCount << endl;
+						lastNum = num;
+						lastCount = colNum;
+					}
+				}
+				continue;
+			}
+			if (i == 0 && i == dataSize - 1 && data[i].start % colNum == 0 && data[i].end % colNum == (colNum - 1)) {
+				lastNum = 0;
+				lastCount = colNum;
+				continue;
+			}
+			if (i == dataSize - 1 && data[i].start % colNum == 0 && data[i].end % colNum == (colNum - 1) && data[i - 1].start % colNum == 0 && data[i - 1].end % colNum == (colNum - 1)) {
+				int num = findMax(data[i].start, i, data[i].num);
+				if (lastNum == -1) {
+					lastNum = num;
+					lastCount = colNum;
+				} else {
+					if (lastNum == num) {
+						lastCount += colNum;
+					} else {
+						cout << lastNum << " " << lastCount << endl;
+						lastNum = num;
+						lastCount = colNum;
+					}
+				}
+				continue;
+			}
+			if (i != 0 && i != dataSize - 1 && data[i].start % colNum == 0 && data[i].end % colNum == (colNum - 1) && data[i - 1].start % colNum == 0 && data[i - 1].end % colNum == (colNum - 1) && data[i + 1].start % colNum == 0 && data[i + 1].end % colNum == (colNum - 1)) {
+				int num = findMax(data[i].start, i, data[i].num);
+				if (lastNum == -1) {
+					lastNum = num;
+					lastCount = colNum;
+				} else {
+					if (lastNum == num) {
+						lastCount += colNum;
+					} else {
+						cout << lastNum << " " << lastCount << endl;
+						lastNum = num;
+						lastCount = colNum;
+					}
+				}
+				continue;
+			}
+			
 			for (int j = data[i].start; j <= data[i].end; j++) {
 				int num = findMax(j, i, data[i].num);
 				if (lastNum == -1) {
