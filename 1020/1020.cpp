@@ -14,9 +14,10 @@ struct Cake {
 
 int testNum, cakeNum, bigCakeSize;
 Cake cakes[16];
+bool used[41][41];
 
 bool cmp(Cake c1, Cake c2) {
-	return c1.size > c2.size;
+	return c1.size < c2.size;
 }
 
 bool check(int num, int llx, int lly, int urx, int ury) {
@@ -35,31 +36,81 @@ bool dfs(int num) {
 	if (num >= cakeNum) {
 		return true;
 	}
-	for (int i = 0; i < cakeNum; i++) {
-		if (cakes[i].used || (i != 0 && cakes[i - 1].size == cakes[i].size && !cakes[i - 1].used && !cakes[i].used)) {
-			continue;
-		}
-		bool f = false;
-		for (int x = 0; x <=  bigCakeSize - cakes[i].size; x++) {
-			for (int y = 0; y <= bigCakeSize - cakes[i].size; y++) {
-				// This can fit
-				if (check(i, x, y, x + cakes[i].size, y + cakes[i].size)) {
-					cakes[i].used = true;
-					cakes[i].llx = x;
-					cakes[i].lly = y;
-					cakes[i].urx = x + cakes[i].size;
-					cakes[i].ury = y + cakes[i].size;
-					if (dfs(num + 1)) {
-						return true;
-					}
-					cakes[i].used = false;
-					f = true;
-					break;
-				}
-			}
-			if (f) {
+	
+	int y, x;
+	for (y = 0; y < bigCakeSize; y++) {
+		for (x = 0; x < bigCakeSize; x++) {
+			if (!used[x][y]) {
 				break;
 			}
+		}
+		if (x != bigCakeSize) {
+			break;
+		}
+	}
+	
+	int i;
+	for (i = 0; i < cakeNum; i++) {
+		if (!cakes[i].used) {
+			break;
+		}
+	}
+	if (y + cakes[i].size > bigCakeSize || x + cakes[i].size > bigCakeSize) {
+		return false;
+	}
+	if (!check(i, x, y, x + cakes[i].size, y + cakes[i].size)) {
+		return false;
+	}
+	
+	cakes[i].used = true;
+	cakes[i].llx = x;
+	cakes[i].lly = y;
+	cakes[i].urx = x + cakes[i].size;
+	cakes[i].ury = y + cakes[i].size;
+	for (int j = y; j < y + cakes[i].size; j++) {
+		for (int k = x; k < x + cakes[i].size; k++) {
+			used[k][j] = true;
+		}
+	}
+	if (dfs(num + 1)) {
+		return true;
+	}
+	for (int j = y; j < y + cakes[i].size; j++) {
+		for (int k = x; k < x + cakes[i].size; k++) {
+			used[k][j] = false;
+		}
+	}
+	cakes[i].used = false;
+	i++;
+	for (; i < cakeNum; i++) {
+		if (cakes[i].used || (i != 0 && cakes[i - 1].size == cakes[i].size && !cakes[i - 1].used)) {
+			continue;
+		}
+		if (y + cakes[i].size > bigCakeSize || x + cakes[i].size > bigCakeSize) {
+			break;
+		}
+		if (check(i, x, y, x + cakes[i].size, y + cakes[i].size)) {
+			for (int j = y; j < y + cakes[i].size; j++) {
+				for (int k = x; k < x + cakes[i].size; k++) {
+					used[k][j] = true;
+				}
+			}
+			cakes[i].used = true;
+			cakes[i].llx = x;
+			cakes[i].lly = y;
+			cakes[i].urx = x + cakes[i].size;
+			cakes[i].ury = y + cakes[i].size;
+			if (dfs(num + 1)) {
+				return true;
+			}
+			for (int j = y; j < y + cakes[i].size; j++) {
+				for (int k = x; k < x + cakes[i].size; k++) {
+					used[k][j] = false;
+				}
+			}
+			cakes[i].used = false;
+		} else {
+			break;
 		}
 	}
 	return false;
@@ -89,6 +140,11 @@ int main() {
 		if (totalSize != bigCakeSize * bigCakeSize) {
 			cout << "HUTUTU!" << endl;
 			continue;
+		}
+		for (int j = 0; j < 41; j++) {
+			for (int k = 0; k < 41; k++) {
+				used[j][k] = false;
+			}
 		}
 		sort(cakes, cakes + cakeNum, cmp);
 		solve();
